@@ -6,7 +6,7 @@ const db = require('../database')
  * id: int (auto increment, primary key)
  * name: string (not null, min=4, max=40)
  * description: string (min=4, max=255)
- * pages: int (not null)
+ * pages: int (not null min=1)
 
   CREATE TABLE book(
     id serial primary key,
@@ -31,6 +31,18 @@ const db = require('../database')
 
 const BookIdValidator = Yup.object().shape({
   id: Yup.number().integer().required()
+})
+
+const BookCreateValidator = Yup.object().shape({
+  name: Yup.string().required().min(4).max(40),
+  description: Yup.string().min(4).max(255),
+  pages: Yup.number().integer().required().min(1)
+})
+
+const BookUpdateValidator = Yup.object().shape({
+  name: Yup.string().min(4).max(40),
+  description: Yup.string().min(4).max(255),
+  pages: Yup.number().integer().min(1)
 })
 
 const CREATE_QUERY = `
@@ -221,6 +233,8 @@ async function findById(id) {
 
 module.exports = {
   BookIdValidator,
+  BookCreateValidator,
+  BookUpdateValidator,
   Book: {
     create,
     updateById,
