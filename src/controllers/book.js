@@ -1,4 +1,14 @@
-const { Book, BookIdValidator, BookCreateValidator, BookUpdateValidator } = require('../models')
+const { Book, BookCreateValidator, BookUpdateValidator } = require('../models')
+
+/**
+ * Validar o id
+ * Validar o body
+ * Chamar a função no model
+ * Verificar se tem algum erro
+ * Retornar resposta de sucesso
+ *
+ * DRY - Don't Repeat Yourself
+*/
 
 async function create(req, res) {
   try {
@@ -17,16 +27,6 @@ async function create(req, res) {
 }
 
 async function updateById(req, res) {
-  const isValidId = await BookIdValidator.isValid(req.params)
-
-  if (!isValidId) {
-    return res.status(400).json({
-      timestamp: new Date().toISOString(),
-      error: 'Bad Request',
-      message: 'Id parameter must be integer'
-    })
-  }
-
   try {
     await BookUpdateValidator.validate(req.body, { abortEarly: false })
   } catch (error) {
@@ -43,16 +43,6 @@ async function updateById(req, res) {
 }
 
 async function deleteById(req, res) {
-  const isValidId = await BookIdValidator.isValid(req.params)
-
-  if (!isValidId) {
-    return res.status(400).json({
-      timestamp: new Date().toISOString(),
-      error: 'Bad Request',
-      message: 'Id parameter must be integer'
-    })
-  }
-
   const result = await Book.deleteById(req.params.id)
 
   if (result.error) {
@@ -69,16 +59,6 @@ async function findAll(req, res) {
 }
 
 async function findById(req, res) {
-  const isValidId = await BookIdValidator.isValid(req.params)
-
-  if (!isValidId) {
-    return res.status(400).json({
-      timestamp: new Date().toISOString(),
-      error: 'Bad Request',
-      message: 'Id parameter must be integer'
-    })
-  }
-
   const result = await Book.findById(req.params.id)
 
   if (result.error) {

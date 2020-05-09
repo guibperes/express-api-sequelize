@@ -29,10 +29,6 @@ const db = require('../database')
   }
 **/
 
-const BookIdValidator = Yup.object().shape({
-  id: Yup.number().integer().required()
-})
-
 const BookCreateValidator = Yup.object().shape({
   name: Yup.string().required().min(4).max(40),
   description: Yup.string().min(4).max(255),
@@ -232,7 +228,6 @@ async function findById(id) {
 }
 
 module.exports = {
-  BookIdValidator,
   BookCreateValidator,
   BookUpdateValidator,
   Book: {
