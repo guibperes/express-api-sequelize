@@ -11,7 +11,9 @@ async function create(req, res) {
 }
 
 async function updateById(req, res) {
-  if (!(await BookIdValidator.isValid(req.params))) {
+  const isValidId = await BookIdValidator.isValid(req.params)
+
+  if (!isValidId) {
     return res.status(400).json({
       timestamp: new Date().toISOString(),
       error: 'Bad Request',
@@ -29,7 +31,9 @@ async function updateById(req, res) {
 }
 
 async function deleteById(req, res) {
-  if (!(await BookIdValidator.isValid(req.params))) {
+  const isValidId = await BookIdValidator.isValid(req.params)
+
+  if (!isValidId) {
     return res.status(400).json({
       timestamp: new Date().toISOString(),
       error: 'Bad Request',
@@ -53,7 +57,9 @@ async function findAll(req, res) {
 }
 
 async function findById(req, res) {
-  if (!(await BookIdValidator.isValid(req.params))) {
+  const isValidId = await BookIdValidator.isValid(req.params)
+
+  if (!isValidId) {
     return res.status(400).json({
       timestamp: new Date().toISOString(),
       error: 'Bad Request',
