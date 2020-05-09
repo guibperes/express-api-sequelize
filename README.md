@@ -7,6 +7,6 @@ Basic entity CRUD and validation using only pg library for database operations.
 - Basic Validations - DONE
 - Http Status lib
 - Response and error build lib
-- Validation middleware
+- Validation middleware - DONE
 - Response middleware
 - Migrations

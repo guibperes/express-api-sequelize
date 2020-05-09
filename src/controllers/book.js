@@ -1,4 +1,4 @@
-const { Book, BookCreateValidator, BookUpdateValidator } = require('../models')
+const { Book } = require('../models')
 
 /**
  * Validar o id
@@ -11,12 +11,6 @@ const { Book, BookCreateValidator, BookUpdateValidator } = require('../models')
 */
 
 async function create(req, res) {
-  try {
-    await BookCreateValidator.validate(req.body, { abortEarly: false })
-  } catch (error) {
-    return res.status(400).json(error)
-  }
-
   const result = await Book.create(req.body)
 
   if (result.error) {
@@ -27,12 +21,6 @@ async function create(req, res) {
 }
 
 async function updateById(req, res) {
-  try {
-    await BookUpdateValidator.validate(req.body, { abortEarly: false })
-  } catch (error) {
-    return res.status(400).json(error)
-  }
-
   const result = await Book.updateById(req.params.id, req.body)
 
   if (result.error) {
