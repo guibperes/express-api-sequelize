@@ -23,7 +23,7 @@ function buildError(
     error: {
       status: status.number,
       data: {
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now(),
         name: status.name,
         message,
       },
