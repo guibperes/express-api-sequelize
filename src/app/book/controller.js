@@ -1,60 +1,19 @@
+const { Response } = require('../../libs');
 const { Book } = require('./model');
 
-/**
- * Validar o id
- * Validar o body
- * Chamar a função no model
- * Verificar se tem algum erro
- * Retornar resposta de sucesso
- *
- * DRY - Don't Repeat Yourself
- */
+const create = async (req, res) =>
+  Response.send(res, await Book.create(req.body));
 
-async function create(req, res) {
-  const result = await Book.create(req.body);
+const updateById = async (req, res) =>
+  Response.send(res, await Book.updateById(req.params.id, req.body));
 
-  if (result.error) {
-    return res.status(result.error.status).json(result.error.data);
-  }
+const deleteById = async (req, res) =>
+  Response.send(res, await Book.deleteById(req.params.id));
 
-  return res.json(result.content);
-}
+const findAll = async (req, res) => Response.send(res, await Book.findAll());
 
-async function updateById(req, res) {
-  const result = await Book.updateById(req.params.id, req.body);
-
-  if (result.error) {
-    return res.status(result.error.status).json(result.error.data);
-  }
-
-  return res.json(result.content);
-}
-
-async function deleteById(req, res) {
-  const result = await Book.deleteById(req.params.id);
-
-  if (result.error) {
-    return res.status(result.error.status).json(result.error.data);
-  }
-
-  return res.json(result.content);
-}
-
-async function findAll(req, res) {
-  const result = await Book.findAll();
-
-  return res.json(result.content);
-}
-
-async function findById(req, res) {
-  const result = await Book.findById(req.params.id);
-
-  if (result.error) {
-    return res.status(result.error.status).json(result.error.data);
-  }
-
-  return res.json(result.content);
-}
+const findById = async (req, res) =>
+  Response.send(res, await Book.findById(req.params.id));
 
 module.exports = {
   BookController: {

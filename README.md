@@ -6,7 +6,7 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [DONE] Basic CRUD
 - [DONE] Basic Validations
 - [DONE] Http Status lib
-- Response and error build lib
+- [DONE] Response and error build lib
 - [DONE] Validation middleware
 - [DONE] ESLint and Prettier config
 - [DONE] Logger

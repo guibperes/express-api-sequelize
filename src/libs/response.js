@@ -35,9 +35,18 @@ function build(content) {
   return { content };
 }
 
+function send(res, result) {
+  if (result.error) {
+    return res.status(result.error.status).json(result.error.data);
+  }
+
+  return res.json(result.content);
+}
+
 module.exports = {
   Response: {
     buildError,
     build,
+    send,
   },
 };
