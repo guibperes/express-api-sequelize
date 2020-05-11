@@ -3,10 +3,18 @@
 Basic entity CRUD and validation using only pg library for database operations.
 
 ## TODO
-- Basic CRUD - DONE
-- Basic Validations - DONE
-- Http Status lib - DOING
+- [DONE] Basic CRUD
+- [DONE] Basic Validations
+- [DONE] Http Status lib
 - Response and error build lib
-- Validation middleware - DONE
-- Response middleware
+- [DONE] Validation middleware
+- ESLint and Prettier config
+- Logger
+- Not Found middleware
+- CORS
+- Typescript
+- TypeORM
 - Migrations
+- Base Entity
+- Base Service
+- Base Controller
