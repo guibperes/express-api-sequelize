@@ -60,7 +60,7 @@ const FIND_BY_ID_QUERY = `
   WHERE id = $1;
 `;
 
-async function create({ name, description, pages }) {
+const create = async ({ name, description, pages }) => {
   try {
     const { rows } = await db.query(CREATE_QUERY, [name, description, pages]);
     const book = rows[0];
@@ -75,9 +75,9 @@ async function create({ name, description, pages }) {
     logger.error(error);
     return Response.buildError();
   }
-}
+};
 
-async function findById(id) {
+const findById = async id => {
   try {
     const { rows } = await db.query(FIND_BY_ID_QUERY, [id]);
     const book = rows[0];
@@ -99,9 +99,9 @@ async function findById(id) {
     logger.error(error);
     return Response.buildError();
   }
-}
+};
 
-async function updateById(id, bookData) {
+const updateById = async (id, bookData) => {
   try {
     const result = await findById(id);
 
@@ -127,9 +127,9 @@ async function updateById(id, bookData) {
     logger.error(error);
     return Response.buildError();
   }
-}
+};
 
-async function deleteById(id) {
+const deleteById = async id => {
   try {
     const result = await findById(id);
 
@@ -142,9 +142,9 @@ async function deleteById(id) {
     logger.error(error);
     return Response.buildError();
   }
-}
+};
 
-async function findAll() {
+const findAll = async () => {
   try {
     const { rows } = await db.query(FIND_ALL_QUERY);
 
@@ -160,7 +160,7 @@ async function findAll() {
     logger.error(error);
     return Response.build([]);
   }
-}
+};
 
 module.exports = {
   BookCreateValidator,
