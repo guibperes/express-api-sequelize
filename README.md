@@ -10,7 +10,7 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [DONE] Validation middleware
 - [DONE] ESLint and Prettier config
 - [DONE] Logger
-- Not Found middleware
+- [DONE] Not Found middleware
 - CORS
 - Typescript
 - TypeORM
