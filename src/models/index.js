@@ -1,3 +1,3 @@
-const { Book, BookCreateValidator, BookUpdateValidator } = require('./book')
+const { Book, BookCreateValidator, BookUpdateValidator } = require('./book');
 
-module.exports = { Book, BookCreateValidator, BookUpdateValidator }
+module.exports = { Book, BookCreateValidator, BookUpdateValidator };
