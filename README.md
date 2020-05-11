@@ -12,6 +12,8 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [Nodemon](https://nodemon.io)
 - [ESLint](https://eslint.org)
 - [Prettier](https://prettier.io)
+- [Jest](https://jestjs.io)
+- [Supertest](https://www.npmjs.com/package/supertest)
 
 ## TODO
 - [x] Basic CRUD
@@ -24,9 +26,5 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] Not Found middleware
 - [ ] Tests
 - [ ] CORS
-- [ ] Typescript
-- [ ] TypeORM
+- [ ] Sequelize
 - [ ] Migrations
-- [ ] Base Entity
-- [ ] Base Service
-- [ ] Base Controller
