@@ -1,7 +1,7 @@
 const Yup = require('yup');
 
-const db = require('../database');
-const { logger } = require('../libs');
+const db = require('../../database');
+const { logger } = require('../../libs');
 
 /**
  * id: int (auto increment, primary key)
