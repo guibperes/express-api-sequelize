@@ -1,6 +1,7 @@
 const Yup = require('yup');
 
 const db = require('../database');
+const { logger } = require('../libs');
 
 /**
  * id: int (auto increment, primary key)
@@ -86,7 +87,7 @@ async function create({ name, description, pages }) {
       },
     };
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return {
       error: {
         status: 500,
@@ -127,7 +128,7 @@ async function findById(id) {
       },
     };
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return {
       error: {
         status: 500,
@@ -168,7 +169,7 @@ async function updateById(id, bookData) {
       },
     };
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return {
       error: {
         status: 500,
@@ -198,7 +199,7 @@ async function deleteById(id) {
       },
     };
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return {
       error: {
         status: 500,
@@ -225,7 +226,7 @@ async function findAll() {
 
     return { content };
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     return {
       content: [],
     };

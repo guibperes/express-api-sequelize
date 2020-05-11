@@ -1,18 +1,20 @@
 const express = require('express');
 require('express-async-errors');
 
+const { loggerMiddleware, logger } = require('./libs');
 const { routes } = require('./routes');
 
 const server = express();
 
 server.use(express.json());
+server.use(loggerMiddleware);
 server.use(routes);
 
 async function start() {
   try {
-    server.listen(5000, () => console.log('Server is running on port 5000'));
+    server.listen(5000, () => logger.info('Server is running on port 5000'));
   } catch (error) {
-    console.log(error);
+    logger.error(error);
     process.exit(1);
   }
 }
