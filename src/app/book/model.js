@@ -1,7 +1,7 @@
 const Yup = require('yup');
 
 const db = require('../../database');
-const { logger } = require('../../libs');
+const { logger, Response, HttpStatus } = require('../../libs');
 
 /**
  * id: int (auto increment, primary key)
@@ -15,20 +15,7 @@ const { logger } = require('../../libs');
     description varchar(255),
     pages integer not null
   );
-
-  Error Object:
-  {
-    error: {// Retorno de erros
-      status: 404,
-      data: {
-        timestamp: new Date().toISOString(),
-        error: 'Not Found',
-        message: 'Cannot find book with provided id'
-      }
-    },
-    content: {} // Dados do objeto com sucesso
-  }
-* */
+*/
 
 const BookCreateValidator = Yup.object().shape({
   name: Yup.string().required().min(4).max(40),
@@ -78,26 +65,15 @@ async function create({ name, description, pages }) {
     const { rows } = await db.query(CREATE_QUERY, [name, description, pages]);
     const book = rows[0];
 
-    return {
-      content: {
-        id: book.id,
-        name: book.name,
-        description: book.description || '',
-        pages: book.pages,
-      },
-    };
+    return Response.build({
+      id: book.id,
+      name: book.name,
+      description: book.description || '',
+      pages: book.pages,
+    });
   } catch (error) {
     logger.error(error);
-    return {
-      error: {
-        status: 500,
-        data: {
-          timestamp: new Date().toISOString(),
-          error: 'Internal Server Error',
-          message: 'Internal Server Error, contact the dev',
-        },
-      },
-    };
+    return Response.buildError();
   }
 }
 
@@ -107,38 +83,21 @@ async function findById(id) {
     const book = rows[0];
 
     if (!book) {
-      return {
-        error: {
-          status: 404,
-          data: {
-            timestamp: new Date().toISOString(),
-            error: 'Not Found',
-            message: 'Cannot find book with provided id',
-          },
-        },
-      };
+      return Response.buildError(
+        'Cannot find book with provided id',
+        HttpStatus.NOT_FOUND
+      );
     }
 
-    return {
-      content: {
-        id: book.id,
-        name: book.name,
-        description: book.description || '',
-        pages: book.pages,
-      },
-    };
+    return Response.build({
+      id: book.id,
+      name: book.name,
+      description: book.description || '',
+      pages: book.pages,
+    });
   } catch (error) {
     logger.error(error);
-    return {
-      error: {
-        status: 500,
-        data: {
-          timestamp: new Date().toISOString(),
-          error: 'Internal Server Error',
-          message: 'Internal Server Error, contact the dev',
-        },
-      },
-    };
+    return Response.buildError();
   }
 }
 
@@ -146,9 +105,7 @@ async function updateById(id, bookData) {
   try {
     const result = await findById(id);
 
-    if (result.error) {
-      return result;
-    }
+    if (result.error) return result;
 
     const { name, description, pages } = { ...result.content, ...bookData };
 
@@ -160,26 +117,15 @@ async function updateById(id, bookData) {
     ]);
     const updatedBook = rows[0];
 
-    return {
-      content: {
-        id: updatedBook.id,
-        name: updatedBook.name,
-        description: updatedBook.description || '',
-        pages: updatedBook.pages,
-      },
-    };
+    return Response.build({
+      id: updatedBook.id,
+      name: updatedBook.name,
+      description: updatedBook.description || '',
+      pages: updatedBook.pages,
+    });
   } catch (error) {
     logger.error(error);
-    return {
-      error: {
-        status: 500,
-        data: {
-          timestamp: new Date().toISOString(),
-          error: 'Internal Server Error',
-          message: 'Internal Server Error, contact the dev',
-        },
-      },
-    };
+    return Response.buildError();
   }
 }
 
@@ -187,29 +133,14 @@ async function deleteById(id) {
   try {
     const result = await findById(id);
 
-    if (result.error) {
-      return result;
-    }
+    if (result.error) return result;
 
     await db.query(DELETE_BY_ID_QUERY, [id]);
 
-    return {
-      content: {
-        deleted: true,
-      },
-    };
+    return Response.build({ deleted: true });
   } catch (error) {
     logger.error(error);
-    return {
-      error: {
-        status: 500,
-        data: {
-          timestamp: new Date().toISOString(),
-          error: 'Internal Server Error',
-          message: 'Internal Server Error, contact the dev',
-        },
-      },
-    };
+    return Response.buildError();
   }
 }
 
@@ -217,19 +148,17 @@ async function findAll() {
   try {
     const { rows } = await db.query(FIND_ALL_QUERY);
 
-    const content = rows.map(book => ({
-      id: book.id,
-      name: book.name,
-      description: book.description || '',
-      pages: book.pages,
-    }));
-
-    return { content };
+    return Response.build(
+      rows.map(book => ({
+        id: book.id,
+        name: book.name,
+        description: book.description || '',
+        pages: book.pages,
+      }))
+    );
   } catch (error) {
     logger.error(error);
-    return {
-      content: [],
-    };
+    return Response.build([]);
   }
 }
 
