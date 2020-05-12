@@ -14,6 +14,7 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [Prettier](https://prettier.io)
 - [Jest](https://jestjs.io)
 - [Supertest](https://www.npmjs.com/package/supertest)
+- [Faker](https://github.com/Marak/faker.js)
 
 ## TODO
 - [x] Basic CRUD
