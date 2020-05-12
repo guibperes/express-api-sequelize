@@ -26,6 +26,5 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] Logger
 - [x] Not Found middleware
 - [ ] Tests
+- [ ] Environment Variables
 - [ ] CORS
-- [ ] Sequelize
-- [ ] Migrations
