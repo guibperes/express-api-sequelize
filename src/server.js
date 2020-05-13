@@ -2,7 +2,7 @@ const express = require('express');
 require('express-async-errors');
 
 const { loggerMiddleware, logger } = require('./libs');
-const { notFound } = require('./middlewares');
+const { notFound, errorMiddleware } = require('./middlewares');
 const { routes } = require('./routes');
 
 const server = express();
@@ -11,6 +11,7 @@ server.use(express.json());
 server.use(loggerMiddleware);
 server.use(routes);
 server.use('*', notFound);
+server.use(errorMiddleware);
 
 const start = async () => {
   try {

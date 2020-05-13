@@ -1,7 +1,7 @@
 const Yup = require('yup');
 
 const db = require('../../database');
-const { logger, Response, HttpStatus } = require('../../libs');
+const { Response, HttpStatus } = require('../../libs');
 
 /**
  * id: int (auto increment, primary key)
@@ -61,105 +61,80 @@ const FIND_BY_ID_QUERY = `
 `;
 
 const create = async ({ name, description, pages }) => {
-  try {
-    const { rows } = await db.query(CREATE_QUERY, [name, description, pages]);
-    const book = rows[0];
+  const { rows } = await db.query(CREATE_QUERY, [name, description, pages]);
+  const book = rows[0];
 
-    return Response.build({
-      id: book.id,
-      name: book.name,
-      description: book.description || '',
-      pages: book.pages,
-    });
-  } catch (error) {
-    logger.error(error);
-    return Response.buildError();
-  }
+  return Response.build({
+    id: book.id,
+    name: book.name,
+    description: book.description || '',
+    pages: book.pages,
+  });
 };
 
 const findById = async id => {
-  try {
-    const { rows } = await db.query(FIND_BY_ID_QUERY, [id]);
-    const book = rows[0];
+  const { rows } = await db.query(FIND_BY_ID_QUERY, [id]);
+  const book = rows[0];
 
-    if (!book) {
-      return Response.buildError(
-        'Cannot find book with provided id',
-        HttpStatus.NOT_FOUND
-      );
-    }
+  if (!book) {
+    return Response.buildError(
+      'Cannot find book with provided id',
+      HttpStatus.NOT_FOUND
+    );
+  }
 
-    return Response.build({
+  return Response.build({
+    id: book.id,
+    name: book.name,
+    description: book.description || '',
+    pages: book.pages,
+  });
+};
+
+const updateById = async (id, bookData) => {
+  const result = await findById(id);
+
+  if (result.error) return result;
+
+  const { name, description, pages } = { ...result.content, ...bookData };
+
+  const { rows } = await db.query(UPDATE_BY_ID_QUERY, [
+    name,
+    description,
+    pages,
+    id,
+  ]);
+  const updatedBook = rows[0];
+
+  return Response.build({
+    id: updatedBook.id,
+    name: updatedBook.name,
+    description: updatedBook.description || '',
+    pages: updatedBook.pages,
+  });
+};
+
+const deleteById = async id => {
+  const result = await findById(id);
+
+  if (result.error) return result;
+
+  await db.query(DELETE_BY_ID_QUERY, [id]);
+
+  return Response.build({ deleted: true });
+};
+
+const findAll = async () => {
+  const { rows } = await db.query(FIND_ALL_QUERY);
+
+  return Response.build(
+    rows.map(book => ({
       id: book.id,
       name: book.name,
       description: book.description || '',
       pages: book.pages,
-    });
-  } catch (error) {
-    logger.error(error);
-    return Response.buildError();
-  }
-};
-
-const updateById = async (id, bookData) => {
-  try {
-    const result = await findById(id);
-
-    if (result.error) return result;
-
-    const { name, description, pages } = { ...result.content, ...bookData };
-
-    const { rows } = await db.query(UPDATE_BY_ID_QUERY, [
-      name,
-      description,
-      pages,
-      id,
-    ]);
-    const updatedBook = rows[0];
-
-    return Response.build({
-      id: updatedBook.id,
-      name: updatedBook.name,
-      description: updatedBook.description || '',
-      pages: updatedBook.pages,
-    });
-  } catch (error) {
-    logger.error(error);
-    return Response.buildError();
-  }
-};
-
-const deleteById = async id => {
-  try {
-    const result = await findById(id);
-
-    if (result.error) return result;
-
-    await db.query(DELETE_BY_ID_QUERY, [id]);
-
-    return Response.build({ deleted: true });
-  } catch (error) {
-    logger.error(error);
-    return Response.buildError();
-  }
-};
-
-const findAll = async () => {
-  try {
-    const { rows } = await db.query(FIND_ALL_QUERY);
-
-    return Response.build(
-      rows.map(book => ({
-        id: book.id,
-        name: book.name,
-        description: book.description || '',
-        pages: book.pages,
-      }))
-    );
-  } catch (error) {
-    logger.error(error);
-    return Response.build([]);
-  }
+    }))
+  );
 };
 
 module.exports = {
