@@ -1,8 +1,8 @@
 const request = require('supertest');
 
-const { App } = require('../../src/server');
-const db = require('../../src/database');
-const { DatabaseMock, BookMock } = require('../mocks');
+const { App } = require('../../../src/server');
+const db = require('../../../src/database');
+const { DatabaseMock, BookMock } = require('../../mocks');
 
 describe('POST /books', () => {
   test('should create a book with description', async () => {
