@@ -26,5 +26,5 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] Logger
 - [x] Not Found middleware
 - [x] Tests
-- [ ] Environment Variables
+- [x] Environment Variables
 - [ ] CORS
