@@ -32,7 +32,7 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] Sequelize ORM
 - [x] Migrations
 - [x] Service
-- [ ] Base Service
+- [x] Base Service
 - [ ] Base Controller
 - [ ] Base Routes
 - [ ] Tests with ORM
